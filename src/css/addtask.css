@@ -1,0 +1,30 @@
+.title {
+  text-align: center;
+  margin-top:50px;
+}
+
+.sections-container {
+  margin-top:35px;
+  border-radius:4px;
+}
+
+.property-row-titles {
+  border:1px solid #ced4da;
+}
+
+.property-row {
+  border:1px solid #ced4da;
+  border-top:none;
+}
+
+.second-column {
+  border-left:1px solid #ced4da;
+}
+
+.column {
+  line-height:75px;
+}
+
+.input-column {
+  padding:15px 0;
+}
