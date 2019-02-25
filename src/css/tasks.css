@@ -17,7 +17,12 @@
   border-top:none;
 }
 
-.second-column {
+.additions-row {
+  border:1px solid #ced4da;
+  border-top:none;
+}
+
+.line-column {
   border-left:1px solid #ced4da;
 }
 
@@ -27,4 +32,12 @@
 
 .input-column {
   padding:15px 0;
+}
+
+.title-row {
+  line-height:50px;
+}
+
+.input-row {
+  margin:15px 0;
 }
