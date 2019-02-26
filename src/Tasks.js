@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Container, Row, Col, Button, Input} from 'reactstrap';
 import {FaSave, FaTrash} from 'react-icons/fa';
+import {Link} from 'react-router-dom';
 
 import './css/tasks.css'
 
@@ -35,7 +36,7 @@ class Tasks extends Component {
       console.log("Appending to State");
       content.push(
         <Row key={tasks[i].id} className="property-row">
-          <Col xs="3" className="column">{tasks[i].name}</Col>
+          <Col xs="3" className="column"><Link to={"tasks/edit/" + tasks[i].id} >{tasks[i].name}</Link></Col>
           <Col xs="3" className="column line-column">{tasks[i].target}</Col>
           <Col xs="2" className="column line-column">{tasks[i].port}</Col>
           <Col xs="2" className="column line-column">{tasks[i].chunksize}</Col>
@@ -122,7 +123,7 @@ class Tasks extends Component {
           <Col xs="3" className="column line-column title-row"><Input className="input-row" placeholder="127.0.0.1" value={this.state.newTarget} onChange={this.updateTarget}/></Col>
           <Col xs="2" className="column line-column title-row"><Input className="input-row" placeholder="80" value={this.state.newPort} onChange={this.updatePort}/></Col>
           <Col xs="2" className="column line-column title-row"><Input className="input-row" placeholder="10000" value={this.state.newChunkSize} onChange={this.updateChunk}/></Col>
-          <Col xs="2" className="column line-column title-row"><Button color="success" onClick={this.createTask}><FaSave /></Button></Col>
+          <Col xs="2" className="column line-column title-row"><Button color="success" onClick={this.createTask} className="submit-button"><FaSave className="trash-icon" size="1.3em"/>&nbsp;&nbsp;Save</Button></Col>
         </Row>
       </Container>
       </>

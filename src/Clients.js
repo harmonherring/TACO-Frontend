@@ -23,7 +23,6 @@ class Clients extends Component {
   }
 
   fetchClients = () => {
-    console.log("Fetching")
     fetch('https://taco.csh.rit.edu/clients')
     .then(response => response.json())
     .then(jsonresponse => this.appendToState(jsonresponse));
@@ -32,12 +31,11 @@ class Clients extends Component {
   appendToState = (clients) => {
     let content = [];
     for (let i = 0; i < clients.length; i++) {
-      console.log("Appending to State");
       content.push(
         <Row className="property-row">
           <Col xs="3" className="column">{clients[i].name}</Col>
           <Col xs="3" className="column line-column">{clients[i].task_id}</Col>
-          <Col xs="1" className="column line-column"><CustomInput onClick={this.switch} type="switch" id={clients[i].id}/></Col>
+          <Col xs="1" className="column line-column"><CustomInput onClick={() => this.switch(clients[i].id)} type="switch" id={clients[i].id} checked={clients[i].active ? "checked" : ""}/></Col>
           <Col xs="3" className="column line-column"><Button onClick={() => {this.deleteClient(clients[i].id)}} size="md" color="danger"><FaTrash size="1.02em" className="trash-icon" /></Button></Col>
         </Row>
       );
@@ -45,8 +43,10 @@ class Clients extends Component {
     this.setState({allHTMLContent: content});
   }
 
-  switch = (event) => {
-    console.log(event.target);
+  switch = (uid) => {
+    fetch("https://taco.csh.rit.edu/clients/"+uid+"/toggle", {
+      method: "PUT",
+    }).then(() => this.fetchClients());
   }
 
   deleteClient = (uid) => {

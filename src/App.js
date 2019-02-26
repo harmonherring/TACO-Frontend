@@ -15,6 +15,7 @@ import {
 import {Navigation} from './Navigation';
 import Clients from './Clients.js';
 import Tasks from './Tasks.js';
+import EditTask from './EditTask.js'
 
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -26,6 +27,7 @@ class App extends Component {
             <Navigation />
             <Route exact path="/clients" component={Clients} />
             <Route exact path="/tasks" component={Tasks} />
+            <Route path="/tasks/edit" component={EditTask} />
           </>
         );
     }

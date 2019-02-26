@@ -1,0 +1,29 @@
+.first-row {
+  border:1px solid #ced4da;
+}
+
+.second-column {
+  border-left:1px solid #ced4da;
+}
+
+.first-row {
+  line-height:50px;
+}
+
+.nth-row {
+  line-height:75px;
+  border:1px solid #ced4da;
+  border-top:none;
+}
+
+.submission-row {
+  width:100%;
+}
+
+.action-button {
+  margin:5px 10px 5px 0;
+}
+
+.icon {
+  margin-bottom:5px;
+}
