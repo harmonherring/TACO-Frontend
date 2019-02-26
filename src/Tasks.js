@@ -23,6 +23,7 @@ class Tasks extends Component {
   }
 
   fetchTasks = () => {
+    console.log("Fetching")
     fetch('https://taco.csh.rit.edu/tasks')
     .then(response => response.json())
     .then(jsonresponse => this.appendToState(jsonresponse));
@@ -31,14 +32,14 @@ class Tasks extends Component {
   appendToState = (tasks) => {
     let content = [];
     for (let i = 0; i < tasks.length; i++) {
+      console.log("Appending to State");
       content.push(
-        <Row className="property-row">
+        <Row key={tasks[i].id} className="property-row">
           <Col xs="3" className="column">{tasks[i].name}</Col>
           <Col xs="3" className="column line-column">{tasks[i].target}</Col>
           <Col xs="2" className="column line-column">{tasks[i].port}</Col>
           <Col xs="2" className="column line-column">{tasks[i].chunksize}</Col>
-          <Col xs="2" className="column line-column"><Button color="danger"><FaTrash /></Button></Col>
-
+          <Col xs="2" className="column line-column"><Button onClick={() => {this.deleteTask(tasks[i].id)}} size="md" color="danger"><FaTrash size="1.02em" className="trash-icon" /></Button></Col>
         </Row>
       );
     }
@@ -53,6 +54,7 @@ class Tasks extends Component {
     this.setState({
       newTaskName: event.target.value,
     });
+    console.log(event);
   }
 
   updateTarget = (event) => {
@@ -74,6 +76,7 @@ class Tasks extends Component {
   }
 
   createTask = () => {
+    console.log("Create Task")
     if (this.state.newPort &&
         this.state.newTarget &&
         this.state.newTaskName &&
@@ -84,15 +87,21 @@ class Tasks extends Component {
                 + this.state.newPort + "&chunksize="
                 + this.state.newChunkSize + "&", {
             method: "PUT",
-            })
+          }).then(() => this.fetchTasks());
+
           this.setState({
             newPort:'',
             newTarget:'',
             newTaskName:'',
             newChunkSize:'',
           });
-          this.fetchTasks();
-        }
+    }
+  }
+
+  deleteTask = (uid) => {
+    fetch("https://taco.csh.rit.edu/tasks/" + uid, {
+      method: "DELETE",
+    }).then(() => this.fetchTasks());
   }
 
   render() {
@@ -113,7 +122,7 @@ class Tasks extends Component {
           <Col xs="3" className="column line-column title-row"><Input className="input-row" placeholder="127.0.0.1" value={this.state.newTarget} onChange={this.updateTarget}/></Col>
           <Col xs="2" className="column line-column title-row"><Input className="input-row" placeholder="80" value={this.state.newPort} onChange={this.updatePort}/></Col>
           <Col xs="2" className="column line-column title-row"><Input className="input-row" placeholder="10000" value={this.state.newChunkSize} onChange={this.updateChunk}/></Col>
-          <Col xs="2" className="column line-column title-row"><Button color="success" onClick={this.createTask}><FaSave /></Button><Button onClick={this.fetchTasks()} color="primary">Re</Button></Col>
+          <Col xs="2" className="column line-column title-row"><Button color="success" onClick={this.createTask}><FaSave /></Button></Col>
         </Row>
       </Container>
       </>

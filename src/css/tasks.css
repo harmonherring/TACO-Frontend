@@ -41,3 +41,13 @@
 .input-row {
   margin:15px 0;
 }
+
+.trash-icon {
+  margin-bottom:4px;
+}
+
+.custom-switch {
+  padding:none !important;
+  line-height:0;
+  padding-top: 20px;
+}
