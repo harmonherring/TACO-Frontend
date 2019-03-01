@@ -15,6 +15,7 @@
 .property-row {
   border:1px solid #ced4da;
   border-top:none;
+  height:75px;
 }
 
 .additions-row {
@@ -28,6 +29,11 @@
 
 .column {
   line-height:75px;
+  height:75px;
+}
+
+.title-column {
+  height:50px;
 }
 
 .input-column {
@@ -42,7 +48,7 @@
   margin:15px 0;
 }
 
-.trash-icon {
+.icon {
   margin-bottom:4px;
 }
 
@@ -56,4 +62,13 @@
   margin-top:15px;
   font-weight:500 !important;
   font-size:20px !important;
+}
+
+.Dropdown-root {
+  margin-top:15px;
+  line-height:25px;
+}
+
+.Dropdown-arrow {
+  top:47% !important;
 }

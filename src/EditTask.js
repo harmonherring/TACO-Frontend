@@ -12,7 +12,7 @@ class EditTask extends Component {
 
     this.state = {
       id:'',
-      name:'fds',
+      name:'',
     }
   }
 
