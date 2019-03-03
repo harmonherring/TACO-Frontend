@@ -1,18 +1,6 @@
 import React, {Component} from "react";
 import {Route, Link, Router} from 'react-router-dom';
-import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavLink,
-    NavItem,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem } from 'reactstrap';
-import {Navigation} from './Navigation';
+import Navigation from './Navigation.js';
 import Clients from './Clients.js';
 import Tasks from './Tasks.js';
 import EditTask from './EditTask.js';

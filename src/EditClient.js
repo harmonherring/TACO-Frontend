@@ -3,6 +3,7 @@ import Dropdown from 'react-dropdown';
 import {Container, Row, Col, Input, Button, CustomInput} from 'reactstrap';
 import {FaCheck, FaTrash} from 'react-icons/fa';
 import {Route} from 'react-router-dom';
+import Loading from './Loading.js';
 
 import './css/edit.css'
 
@@ -17,12 +18,15 @@ class EditClient extends Component {
       task_id:'',
       last_online:'',
       tasks_list:[],
+      loading:false,
     }
   }
 
   componentDidMount = () => {
-    // Get the active client data
-    this.fetchTasks().then(() => this.fetchData(this.getActiveElement()));
+    this.setState({loading:true});
+    this.fetchTasks()
+    .then(() => this.fetchData(this.getActiveElement()))
+    .then(() => this.setState({loading:false}));
   }
 
   getActiveElement = () => {
@@ -104,52 +108,56 @@ class EditClient extends Component {
   }
 
   render() {
-    return(
-      <>
-      <h1 className="title">Viewing Client "{this.state.name}"</h1>
-      <Container className="sections-container">
-        <Row className="first-row">
-          <Col xs="6"><strong>Client ID</strong></Col>
-          <Col xs="6" className="second-column">{this.state.id}</Col>
-        </Row>
-        <Row className="nth-row">
-          <Col xs="6"><strong>Name</strong></Col>
-          <Col xs="6" className="second-column"><Input onChange={this.updateName} value={this.state.name} placeholder="Name" className="input-row"/></Col>
-        </Row>
-        <Row className="nth-row">
-          <Col xs="6"><strong>Task</strong></Col>
-          <Col xs="6" className="second-column"><Dropdown options={this.state.tasks_list} onChange={this.selectTask} value={this.getTasksFromList(this.state.task_id)} /></Col>
-        </Row>
-        <Row className="nth-row">
-          <Col xs="6"><strong>Active</strong></Col>
-          <Col xs="6" className="second-column"><CustomInput onChange={this.toggleActivity} type="switch" id="activeSwitch" checked={this.state.active ? "checked" : "" }/></Col>
-        </Row>
-        <Row className="nth-row">
-          <Col xs="6"><strong>Last Online</strong></Col>
-          <Col xs="6" className="second-column">{this.state.last_online}</Col>
-        </Row>
-        <Row className="nth-row">
-          <Col xs="6"><strong>Actions</strong></Col>
-          <Col xs="6" className="second-column">
-            <Route render={({history}) => (
-              <>
-              <Button className="action-button"
-                      color="success"
-                      onClick={() => {this.updateClient(history); }}>
-                  <FaCheck className="icon" />
-              </Button>
-              <Button className="action-button"
-                      onClick={() => this.deleteClient(history)}
-                      color="danger">
-                <FaTrash className="icon" />
-              </Button>
-              </>
-            )} />
-          </Col>
-        </Row>
-      </Container>
-      </>
-    );
+    if (this.state.loading) {
+      return(<Loading />);
+    } else {
+      return (
+        <>
+        <h1 className="title">Viewing Client "{this.state.name}"</h1>
+        <Container className="sections-container">
+          <Row className="first-row">
+            <Col xs="6"><strong>Client ID</strong></Col>
+            <Col xs="6" className="second-column">{this.state.id}</Col>
+          </Row>
+          <Row className="nth-row">
+            <Col xs="6"><strong>Name</strong></Col>
+            <Col xs="6" className="second-column"><Input onChange={this.updateName} value={this.state.name} placeholder="Name" className="input-row"/></Col>
+          </Row>
+          <Row className="nth-row">
+            <Col xs="6"><strong>Task</strong></Col>
+            <Col xs="6" className="second-column"><Dropdown options={this.state.tasks_list} onChange={this.selectTask} value={this.getTasksFromList(this.state.task_id)} /></Col>
+          </Row>
+          <Row className="nth-row">
+            <Col xs="6"><strong>Active</strong></Col>
+            <Col xs="6" className="second-column"><CustomInput onChange={this.toggleActivity} type="switch" id="activeSwitch" checked={this.state.active ? "checked" : "" }/></Col>
+          </Row>
+          <Row className="nth-row">
+            <Col xs="6"><strong>Last Online</strong></Col>
+            <Col xs="6" className="second-column">{this.state.last_online}</Col>
+          </Row>
+          <Row className="nth-row">
+            <Col xs="6"><strong>Actions</strong></Col>
+            <Col xs="6" className="second-column">
+              <Route render={({history}) => (
+                <>
+                <Button className="action-button"
+                        color="success"
+                        onClick={() => {this.updateClient(history); }}>
+                    <FaCheck className="icon" />
+                </Button>
+                <Button className="action-button"
+                        onClick={() => this.deleteClient(history)}
+                        color="danger">
+                  <FaTrash className="icon" />
+                </Button>
+                </>
+              )} />
+            </Col>
+          </Row>
+        </Container>
+        </>
+      );
+    }
   }
 }
 
