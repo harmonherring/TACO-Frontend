@@ -12,7 +12,7 @@ class EditClient extends Component {
     super(props);
 
     this.state = {
-      id:'',
+      uid:'',
       name:'',
       active:0,
       task_id:'',
@@ -49,7 +49,7 @@ class EditClient extends Component {
 
   getAttributes = (data) => {
     this.setState({
-      id:data.id,
+      uid:data.uid,
       name:data.name,
       task_id:data.task_id,
       active:data.active,
@@ -64,20 +64,20 @@ class EditClient extends Component {
   }
 
   toggleActivity = () => {
-    fetch("https://taco.csh.rit.edu/clients/"+this.state.id+"/toggle", {
+    fetch("https://taco.csh.rit.edu/clients/"+this.state.uid+"/toggle", {
       method: "PUT",
-    }).then(() => this.fetchData(this.state.id));
+    }).then(() => this.fetchData(this.state.uid));
   }
 
   updateClient = (history) => {
-    fetch("https://taco.csh.rit.edu/clients/" + this.state.id +
+    fetch("https://taco.csh.rit.edu/clients/" + this.state.uid +
           "?name=" + this.state.name, {
             method:"PUT",
           }).then(() => history.push('/clients'));
   }
 
   deleteClient = (history) => {
-    fetch("https://taco.csh.rit.edu/clients/" + this.state.id
+    fetch("https://taco.csh.rit.edu/clients/" + this.state.uid
           + "?name=" + this.state.name, {
       method:"DELETE",
     }).then(() => history.push('/clients'));
@@ -95,14 +95,14 @@ class EditClient extends Component {
     let tasks_dict = {};
     let tasks_list = [];
     for (let i = 0; i < tasks.length; i++) {
-      tasks_dict[tasks[i]['id']] = tasks[i]['name'];
-      tasks_list.push({value:tasks[i]['id'].toString(), label:tasks[i]['name']});
+      tasks_dict[tasks[i]['uid']] = tasks[i]['name'];
+      tasks_list.push({value:tasks[i]['uid'].toString(), label:tasks[i]['name']});
     }
     this.setState({tasks_dict: tasks_dict, tasks_list: tasks_list});
   }
 
   selectTask = (event) => {
-    fetch("https://taco.csh.rit.edu/clients/" + this.state.id + "?task_id=" + event.value, {
+    fetch("https://taco.csh.rit.edu/clients/" + this.state.uid + "?task_id=" + event.value, {
       method:"PUT",
     });
   }
@@ -117,7 +117,7 @@ class EditClient extends Component {
         <Container className="sections-container">
           <Row className="first-row">
             <Col xs="6"><strong>Client ID</strong></Col>
-            <Col xs="6" className="second-column">{this.state.id}</Col>
+            <Col xs="6" className="second-column">{this.state.uid}</Col>
           </Row>
           <Row className="nth-row">
             <Col xs="6"><strong>Name</strong></Col>

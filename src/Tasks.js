@@ -36,13 +36,13 @@ class Tasks extends Component {
     let content = [];
     for (let i = 0; i < tasks.length; i++) {
       content.push(
-        <Row key={tasks[i].id} className="property-row">
-          <Col xs="3" className="column"><Link to={"tasks/edit/" + tasks[i].id} >{tasks[i].name}</Link></Col>
-          <Col xs="1" className="column line-column"><CustomInput onClick={() => this.updateActivity(tasks[i].id)} type="switch" id={tasks[i].id} checked={tasks[i].active ? "checked" : ""}/></Col>
+        <Row key={tasks[i].uid} className="property-row">
+          <Col xs="3" className="column"><Link to={"tasks/edit/" + tasks[i].uid} >{tasks[i].name}</Link></Col>
+          <Col xs="1" className="column line-column"><CustomInput onClick={() => this.updateActivity(tasks[i].uid)} type="switch" id={tasks[i].uid} checked={tasks[i].active ? "checked" : ""}/></Col>
           <Col xs="3" className="column line-column">{tasks[i].target}</Col>
           <Col xs="1" className="column line-column">{tasks[i].port}</Col>
           <Col xs="2" className="column line-column">{tasks[i].chunksize}</Col>
-          <Col xs="2" className="column line-column"><Button onClick={() => {this.deleteTask(tasks[i].id)}} size="md" color="danger"><FaTrash size="1.02em" className="icon" /></Button></Col>
+          <Col xs="2" className="column line-column"><Button onClick={() => {this.deleteTask(tasks[i].uid)}} size="md" color="danger"><FaTrash size="1.02em" className="icon" /></Button></Col>
         </Row>
       );
     }

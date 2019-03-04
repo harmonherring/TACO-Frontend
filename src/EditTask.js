@@ -1,19 +1,32 @@
 import React, {Component} from 'react';
-import {Container, Row, Col, Input, Button} from 'reactstrap';
+import {Container, Row, Col, Input, Button, CustomInput} from 'reactstrap';
 import {FaCheck, FaTrash} from 'react-icons/fa';
 import Tasks from './Tasks.js';
 import {Link, Route} from 'react-router-dom';
 import Loading from './Loading.js';
+import Dropdown from 'react-dropdown';
 
 import './css/edit.css';
+
+const AttackTypes = [
+  {value:"Ping_Flood", label:"Ping Flood"},
+  {value:"Ping_Of_Death", label:"Ping of Death"},
+  {value:"DNS_Amplification", label:"DNS Amplification"},
+  {value:"HTTP_Flood", label:"HTTP Flood"},
+];
 
 class EditTask extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      id:'',
+      uid:'',
       name:'',
+      chunksize:0,
+      target:'',
+      port:0,
+      active:0,
+      attack_type:'',
       loading:false,
     }
   }
@@ -37,13 +50,14 @@ class EditTask extends Component {
   }
 
   getAttributes = (data) => {
-    console.log(data);
     this.setState({
-      id:data.id,
+      uid:data.uid,
       name:data.name,
       chunksize:data.chunksize,
       target:data.target,
       port:data.port,
+      active:data.active,
+      attack_type:data.attack_type,
     });
   }
 
@@ -72,7 +86,7 @@ class EditTask extends Component {
   }
 
   updateTask = (history) => {
-    fetch("https://taco.csh.rit.edu/tasks/" + this.state.id +
+    fetch("https://taco.csh.rit.edu/tasks/" + this.state.uid +
           "?name=" + this.state.name +
           "&target=" + this.state.target +
           "&port=" + this.state.port +
@@ -81,10 +95,23 @@ class EditTask extends Component {
           }).then(() => history.push('/tasks'));
   }
 
+  toggleActivity = () => {
+    fetch("https://taco.csh.rit.edu/tasks/"+this.state.uid+"/toggle", {
+      method: "PUT",
+    }).then(() => this.fetchData(this.state.uid));
+  }
+
   deleteTask = (history) => {
     fetch("https://taco.csh.rit.edu/tasks/" + this.state.id, {
       method:"DELETE",
     }).then(() => history.push('/tasks'));
+  }
+
+  updateAttackType = (new_attack) => {
+    fetch("http://localhost:5000/tasks/" + this.state.uid
+          + "?attack_type=" + new_attack, {
+            method:"PUT",
+          });
   }
 
   render() {
@@ -97,11 +124,19 @@ class EditTask extends Component {
         <Container className="sections-container">
           <Row className="first-row">
             <Col xs="6"><strong>Task ID</strong></Col>
-            <Col xs="6" className="second-column">{this.state.id}</Col>
+            <Col xs="6" className="second-column">{this.state.uid}</Col>
           </Row>
           <Row className="nth-row">
             <Col xs="6"><strong>Name</strong></Col>
             <Col xs="6" className="second-column"><Input onChange={this.updateName} value={this.state.name} placeholder="Name" className="input-row"/></Col>
+          </Row>
+          <Row className="nth-row">
+            <Col xs="6"><strong>Active</strong></Col>
+            <Col xs="6" className="second-column"><CustomInput onChange={this.toggleActivity} type="switch" id="activeSwitch" checked={this.state.active ? "checked" : "" }/></Col>
+          </Row>
+          <Row className="nth-row">
+            <Col xs="6"><strong>Attack Type</strong></Col>
+            <Col xs="3" className="column line-column"><Dropdown options={AttackTypes} onChange={(event) => this.updateAttackType(event.value)} value={this.state.attack_type} /></Col>
           </Row>
           <Row className="nth-row">
             <Col xs="6"><strong>Target</strong></Col>

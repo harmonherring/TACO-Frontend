@@ -47,10 +47,10 @@ class Clients extends Component {
     for (let i = 0; i < clients.length; i++) {
       content.push(
         <Row className="property-row">
-          <Col xs="3" className="column"><Link to={"clients/edit/" + clients[i].id} >{clients[i].name}</Link></Col>
-          <Col xs="3" className="column line-column"><div className="dropdown-container"><Dropdown options={this.state.tasks_list} onChange={(event) => this.selectTask(event, clients[i].id)} value={this.getTasksFromList(clients[i].task_id)} /></div></Col>
+          <Col xs="3" className="column"><Link to={"clients/edit/" + clients[i].uid} >{clients[i].name}</Link></Col>
+          <Col xs="3" className="column line-column"><div className="dropdown-container"><Dropdown options={this.state.tasks_list} onChange={(event) => this.selectTask(event, clients[i].uid)} value={this.getTasksFromList(clients[i].task_id)} /></div></Col>
           <Col xs="3" className="column line-column">{clients[i].last_online}</Col>
-          <Col xs="3" className="column line-column"><Button onClick={() => {this.deleteClient(clients[i].id)}} size="md" color="danger"><FaTrash size="1.02em" className="icon" /></Button></Col>
+          <Col xs="3" className="column line-column"><Button onClick={() => {this.deleteClient(clients[i].uid)}} size="md" color="danger"><FaTrash size="1.02em" className="icon" /></Button></Col>
         </Row>
       );
     }
@@ -80,7 +80,7 @@ class Clients extends Component {
   createTaskDict = (tasks) => {
     let tasks_list = [];
     for (let i = 0; i < tasks.length; i++) {
-      tasks_list.push({value:tasks[i]['id'].toString(), label:tasks[i]['name']});
+      tasks_list.push({value:tasks[i]['uid'].toString(), label:tasks[i]['name']});
     }
     this.setState({tasks_list: tasks_list});
   }
